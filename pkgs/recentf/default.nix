@@ -1,18 +1,26 @@
-rustPlatform.buildRustPackage rec {
-  pname = "recentf";
-  version = "0.1.0";
+{ stdenv, pkgs , ... }:
 
-  src = fetchFromGitHub {
+let
+  src = pkgs.fetchFromGitHub {
     owner = "WeissP";
-    repo = pname;
-    rev = version;
-    sha256 = "1iga3320mgi7m853la55xip514a3chqsdi1a1rwv25lr9b1p7vd3";
+    repo = "recentf";
+    rev = "d1ef3a7693b98a750a9d4303b5efdb38cdc5a8c2";
+    sha256 = "61EErggzGQ1a8pFPR6OxawTni1j2m9T6s2zKbppNDeI=";
   };
 
-  cargoSha256 = "17ldqr3asrdcsh4l29m3b5r37r5d0b3npq1lrgjmxb6vlx6a36qh";
-
-  meta = with stdenv.lib; {
-    description = "Rust version of emacs recentf";
-    homepage = "https://github.com/WeissP/recentf";
+  libsqlite3-sys = pkgs.rustBuilder.rustLib.makeOverride {
+    name = "libsqlite3-sys";
+    overrideAttrs = drv: {
+      propagatedNativeBuildInputs = drv.propagatedNativeBuildInputs or [ ] ++ [ pkgs.sqlite ];
+    };
   };
-}
+  overrides = pkgs.rustBuilder.overrides.all ++ [ libsqlite3-sys ];
+
+  rustPkgs = pkgs.rustBuilder.makePackageSet {
+    rustChannel = "nightly";
+    packageOverrides = pkgs: overrides; 
+    packageFun = import (src + "/Cargo.nix");
+  };
+in
+rustPkgs.workspace.recentf {}
+

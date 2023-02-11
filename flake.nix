@@ -1,7 +1,13 @@
 {
   description = "My personal NUR repository";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-  outputs = { self, nixpkgs }:
+
+  inputs = {
+    cargo2nix.url = "github:cargo2nix/cargo2nix/release-0.11.0";
+    flake-utils.follows = "cargo2nix/flake-utils";
+    nixpkgs.follows = "cargo2nix/nixpkgs";
+  };
+
+  outputs = { self, nixpkgs, cargo2nix, ... }:
     let
       systems = [
         "x86_64-linux"
@@ -13,9 +19,12 @@
       ];
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
     in
-    {
-      packages = forAllSystems (system: import ./default.nix {
-        pkgs = import nixpkgs { inherit system; };
-      });
-    };
+      {
+        packages = forAllSystems (system: import ./default.nix {
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ cargo2nix.overlays.default ];
+          };
+        });
+      };
 }
