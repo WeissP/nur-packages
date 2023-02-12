@@ -13,8 +13,8 @@ stdenv.mkDerivation rec {
     # The tdlib authors do not set tags for minor versions, but
     # external programs depending on tdlib constrain the minor
     # version, hence we set a specific commit with a known version.
-    rev = "3179d35694a28267a0b6273fc9b5bdce3b6b1235";
-    hash = "sha256-XvqqDXaFclWK/XpIxOqAXQ9gcc/dTljl841CN0KrlyA=";
+    rev = "v1.8.0";
+    hash = "sha256-OBgzFBi+lIBbKnHDm5D/F3Xi4s1x4geb+1OoBP3F+qY=";
   };
 
   buildInputs = [ gperf openssl readline zlib ];
