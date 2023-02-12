@@ -4,7 +4,7 @@
 
 stdenv.mkDerivation rec {
   pname = "tdlib";
-  version = "1.8.11";
+  version = "1.8.0";
 
   src = fetchFromGitHub {
     owner = "tdlib";

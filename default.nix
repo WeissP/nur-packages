@@ -6,7 +6,7 @@
 # commands such as:
 #     nix-build -A mypackage
 
-{ pkgs ? import <nixpkgs> { } }:
+{ pkgs ? import <nixpkgs> { } , ... }:
 
 rec {
   # The `lib`, `modules`, and `overlay` names are special
@@ -16,6 +16,7 @@ rec {
 
   recentf = pkgs.callPackage ./pkgs/recentf { lib = lib; };
   tdlib =  pkgs.callPackage ./pkgs/tdlib { };
+  telega-server =  pkgs.callPackage ./pkgs/telega-server { tdlib = tdlib; };
   # some-qt5-package = pkgs.libsForQt5.callPackage ./pkgs/some-qt5-package { };
   # ...
 }
