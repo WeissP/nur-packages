@@ -15,6 +15,7 @@ rec {
   overlays = import ./overlays; # nixpkgs overlays
 
   recentf = pkgs.callPackage ./pkgs/recentf { lib = lib; };
+  tdlib =  pkgs.callPackage ./pkgs/tdlib { };
   # some-qt5-package = pkgs.libsForQt5.callPackage ./pkgs/some-qt5-package { };
   # ...
 }
