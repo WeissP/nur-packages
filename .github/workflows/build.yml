@@ -7,33 +7,44 @@ on:
       - master
   schedule:
     - cron:  '11 4 * * *'
-
 jobs:
   tests:
     strategy:
       fail-fast: false
       matrix:
-        system:
-          - x86_64-linux
-          # - aarch64-linux
+        cachixName:
+          - weiss
+        nixPath:
+          - nixpkgs=channel:nixos-unstable
+          - nixpkgs=channel:nixpkgs-unstable
+          - nixpkgs=channel:nixos-22.11
     runs-on: ubuntu-latest
-    env:
-      GIT_SSL_NO_VERIFY: "true"
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Install nix
       uses: cachix/install-nix-action@v18
       with:
+        nix_path: "${{ matrix.nixPath }}"
         extra_nix_config: |
           experimental-features = nix-command flakes
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-          extra-platforms = i686-linux aarch64-linux arm-linux
+    - name: Show nixpkgs version
+      run: nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
     - name: Setup cachix
       uses: cachix/cachix-action@v12
+      # Don't replace <YOUR_CACHIX_NAME> here!
+      if: ${{ matrix.cachixName != '<YOUR_CACHIX_NAME>' }}
       with:
-        name: weiss
-    - name: Build nix packages
+        name: ${{ matrix.cachixName }}
+    - name: Check evaluation
       run: |
-        nix flake update
-        nix run .#ci -- ${{ matrix.system }}
+        nix-env -f . -qa \* --meta --xml \
+          --allowed-uris https://static.rust-lang.org \
+          --option restrict-eval true \
+          --option allow-import-from-derivation true \
+          --drv-path --show-trace \
+          -I nixpkgs=$(nix-instantiate --find-file nixpkgs) \
+          -I $PWD
+    - name: Build nix packages
+      run: nix shell -f '<nixpkgs>' nix-build-uncached -c nix-build-uncached ci.nix -A cacheOutputs
