@@ -1,11 +1,11 @@
 {
   description = "My personal NUR repository";
 
-  inputs = {
-    cargo2nix.url = "github:cargo2nix/cargo2nix/release-0.11.0";
-    flake-utils.follows = "cargo2nix/flake-utils";
-    nixpkgs.follows = "cargo2nix/nixpkgs";
-  };
+  # inputs = {
+  #   cargo2nix.url = "github:cargo2nix/cargo2nix/release-0.11.0";
+  #   flake-utils.follows = "cargo2nix/flake-utils";
+  #   nixpkgs.follows = "cargo2nix/nixpkgs";
+  # };
 
   outputs = { self, nixpkgs, cargo2nix, ... }:
     let

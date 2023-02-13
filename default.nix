@@ -14,7 +14,7 @@ rec {
   modules = import ./modules; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
 
-  recentf = pkgs.callPackage ./pkgs/recentf { lib = lib; };
+  # recentf = pkgs.callPackage ./pkgs/recentf { lib = lib; };
   tdlib =  pkgs.callPackage ./pkgs/tdlib { };
   telega-server =  pkgs.callPackage ./pkgs/telega-server { tdlib = tdlib; };
   emacs-rime =  pkgs.callPackage ./pkgs/emacs-rime { };
