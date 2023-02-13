@@ -17,6 +17,7 @@ rec {
   recentf = pkgs.callPackage ./pkgs/recentf { lib = lib; };
   tdlib =  pkgs.callPackage ./pkgs/tdlib { };
   telega-server =  pkgs.callPackage ./pkgs/telega-server { tdlib = tdlib; };
+  emacs-rime =  pkgs.callPackage ./pkgs/emacs-rime { };
   # some-qt5-package = pkgs.libsForQt5.callPackage ./pkgs/some-qt5-package { };
   # ...
 }
