@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - ci
   schedule:
     - cron:  '11 4 * * *'
 jobs:
