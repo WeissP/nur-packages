@@ -23,7 +23,7 @@
         packages = forAllSystems (system: import ./default.nix {
           pkgs = import nixpkgs {
             inherit system;
-            overlays = [ cargo2nix.overlays.default ];
+            # overlays = [ cargo2nix.overlays.default ];
           };
         });
       };
