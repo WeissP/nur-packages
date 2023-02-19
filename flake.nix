@@ -7,7 +7,7 @@
   #   nixpkgs.follows = "cargo2nix/nixpkgs";
   # };
 
-  outputs = { self, nixpkgs, cargo2nix, ... }:
+  outputs = { self, nixpkgs, ... }:
     let
       systems = [
         "x86_64-linux"
