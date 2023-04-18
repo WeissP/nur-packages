@@ -1,4 +1,4 @@
-{ fetchFromGitHub, gcc, emacs, librime, stdenv }:
+{ fetchFromGitHub, gcc, emacs, librime, stdenv, librime-mac }:
 
 stdenv.mkDerivation rec {
   pname = "emacs-rime";
@@ -11,11 +11,10 @@ stdenv.mkDerivation rec {
     hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
   };
 
-  buildInputs = [ gcc emacs librime ];
+  buildInputs = [ gcc emacs ]
+    ++ (if stdenv.isDarwin then [ librime-mac ] else [ librime ]);
 
-  buildPhase = ''
-    make lib
-  '';
+  buildPhase = "make lib";
 
   installPhase = ''
     mkdir -p $out/include
