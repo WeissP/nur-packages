@@ -1,4 +1,4 @@
-{ fetchFromGitHub, gcc, emacs, librime, stdenv, librime-mac }:
+{ fetchFromGitHub, gcc, emacs, librime, stdenv }:
 
 stdenv.mkDerivation rec {
   pname = "emacs-rime";
