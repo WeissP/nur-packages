@@ -16,7 +16,7 @@ rec {
 
   tdlib = pkgs.callPackage ./pkgs/tdlib { };
   telega-server = pkgs.callPackage ./pkgs/telega-server { tdlib = tdlib; };
-  emacs-rime = pkgs.callPackage ./pkgs/emacs-rime;
+  emacs-rime = pkgs.callPackage ./pkgs/emacs-rime { };
   mpvScripts = {
     mpv-bookmarker = pkgs.callPackage ./pkgs/mpvScripts/mpv-bookmarker.nix { };
   };

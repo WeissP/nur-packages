@@ -11,8 +11,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
   };
 
-  buildInputs = [ gcc emacs ]
-    ++ (if stdenv.isDarwin then [ librime-mac ] else [ librime ]);
+  buildInputs = [ gcc emacs librime ];
 
   buildPhase = "make lib";
 
