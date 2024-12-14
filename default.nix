@@ -6,7 +6,10 @@
 # commands such as:
 #     nix-build -A mypackage
 
-{ pkgs ? import <nixpkgs> { }, ... }:
+{
+  pkgs ? import <nixpkgs> { },
+  ...
+}:
 
 rec {
   # The `lib`, `modules`, and `overlay` names are special
@@ -14,10 +17,6 @@ rec {
   modules = import ./modules; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
 
-  tdlib = pkgs.callPackage ./pkgs/tdlib { };
-  telega-server = pkgs.callPackage ./pkgs/telega-server { tdlib = tdlib; };
+  telega-server = pkgs.callPackage ./pkgs/telega-server { };
   emacs-rime = pkgs.callPackage ./pkgs/emacs-rime { };
-  mpvScripts = {
-    mpv-bookmarker = pkgs.callPackage ./pkgs/mpvScripts/mpv-bookmarker.nix { };
-  };
 }
